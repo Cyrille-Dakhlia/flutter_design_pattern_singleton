@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_design_pattern_singleton/logger/another_debug_logger.dart';
 import 'package:flutter_design_pattern_singleton/logger/debug_logger.dart';
+import 'package:flutter_design_pattern_singleton/number_generator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -61,14 +61,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     final logger = DebugLogger();
+    final numGen = NumberGenerator();
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      logger.log('counter: $_counter', 'sample error message');
+      logger.log('counter: $_counter ; numGen: ${numGen.getNextNumber()}',
+          'sample error message');
       _counter++;
+    });
+  }
+
+  void _decrementCounter() {
+    final logger = DebugLogger();
+    final numGen = NumberGenerator();
+    setState(() {
+      logger.log('counter: $_counter ; numGen: ${numGen.getNextNumber()}');
+      _counter--;
     });
   }
 
@@ -119,10 +130,23 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: _incrementCounter,
+            tooltip: 'Increment',
+            child: const Icon(Icons.add),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            onPressed: _decrementCounter,
+            tooltip: 'Decrement',
+            child: const Icon(Icons.remove),
+          ),
+        ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

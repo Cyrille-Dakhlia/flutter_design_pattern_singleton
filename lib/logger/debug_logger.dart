@@ -20,6 +20,7 @@ class DebugLogger extends BaseLogger {
     _instance = this;
   }
 
+  // Lazy instantiation
   factory DebugLogger() => _instance ?? DebugLogger._internal();
 
   void _recordHandler(LogRecord event) => debugPrint(
