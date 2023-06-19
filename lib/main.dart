@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_design_pattern_singleton/file_audit_manager.dart';
 import 'package:flutter_design_pattern_singleton/logger/debug_logger.dart';
 import 'package:flutter_design_pattern_singleton/number_generator.dart';
 
@@ -62,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() {
     final logger = DebugLogger();
     final numGen = NumberGenerator();
+    final audit = FileAuditManager();
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -70,6 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       logger.log('counter: $_counter ; numGen: ${numGen.getNextNumber()}',
           'sample error message');
+      audit.auditAction(
+          'Increment button pressed with counter <$_counter> and numGen <${numGen.currentNumber}>');
       _counter++;
     });
   }
@@ -77,8 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void _decrementCounter() {
     final logger = DebugLogger();
     final numGen = NumberGenerator();
+    final audit = FileAuditManager();
     setState(() {
       logger.log('counter: $_counter ; numGen: ${numGen.getNextNumber()}');
+      audit.auditAction(
+          'Decrement button pressed with counter <$_counter> and numGen <${numGen.currentNumber}>');
       _counter--;
     });
   }
